@@ -1,4 +1,6 @@
-﻿using System;
+﻿using GEConsumingApp.BussinesObjects;
+using GEConsumingApp.Models;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
@@ -8,11 +10,18 @@ namespace GEConsumingApp.Controllers
 {
     public class StudentController : Controller
     {
-        private 
+        private StudentClient client = new StudentClient();
         // GET: Student
         public ActionResult Index()
         {
-            return View();
+            List<StudentModel> models = client.GetAll().ToList();
+
+            if (models == null)
+            {
+                models = new List<StudentModel>();
+            }
+
+            return View(models);
         }
 
         // GET: Student/Details/5
