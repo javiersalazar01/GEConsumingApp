@@ -52,7 +52,7 @@ namespace GEConsumingApp.BussinesObjects
         }
 
 
-        public StudentModel find(int id)
+        public StudentModel Find(int? id)
         {
             try
             {
@@ -80,33 +80,42 @@ namespace GEConsumingApp.BussinesObjects
         {
             try
             {
-                var stringPayload = JsonConvert.SerializeObject(customer));
+                var stringPayload = JsonConvert.SerializeObject(customer);
 
                 // Wrap our JSON inside a StringContent which then can be used by the HttpClient class
                 var httpContent = new StringContent(stringPayload, Encoding.UTF8, "application/json");
-                /*using ()
+                using (HttpClient client = new HttpClient())
                 {
-                }*/
-                    HttpClient client = new HttpClient();
-                client.BaseAddress = new Uri(Base_URL);
-                client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
-                HttpResponseMessage response = client.PostAsync("customers", customer).Result;
-                return response.IsSuccessStatusCode;
+                    client.BaseAddress = new Uri(Base_URL);
+                    client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
+                    HttpResponseMessage response = client.PostAsync("api/student", httpContent).Result;
+                    return response.IsSuccessStatusCode;
+                }
+                
             }
             catch
             {
                 return false;
             }
         }
-        public bool Edit(Customer customer)
+
+        public bool Edit(StudentModel student)
         {
             try
             {
-                HttpClient client = new HttpClient();
-                client.BaseAddress = new Uri(Base_URL);
-                client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
-                HttpResponseMessage response = client.PutAsJsonAsync("customers/" + customer.CustomerId, customer).Result;
-                return response.IsSuccessStatusCode;
+                var stringPayload = JsonConvert.SerializeObject(student);
+
+                // Wrap our JSON inside a StringContent which then can be used by the HttpClient class
+                var httpContent = new StringContent(stringPayload, Encoding.UTF8, "application/json");
+                using (HttpClient client = new HttpClient())
+                {
+                    client.BaseAddress = new Uri(Base_URL);
+                    client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
+                    HttpResponseMessage response = client.PutAsync("api/student/" + student.student_id, httpContent).Result;
+                    return response.IsSuccessStatusCode;
+                }
+                
+                
             }
             catch
             {
@@ -121,14 +130,14 @@ namespace GEConsumingApp.BussinesObjects
                 HttpClient client = new HttpClient();
                 client.BaseAddress = new Uri(Base_URL);
                 client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
-                HttpResponseMessage response = client.DeleteAsync("customers/" + id).Result;
+                HttpResponseMessage response = client.DeleteAsync("api/student/" + id).Result;
                 return response.IsSuccessStatusCode;
             }
             catch
             {
                 return false;
             }
-        }
+        }*/
 
 
 
